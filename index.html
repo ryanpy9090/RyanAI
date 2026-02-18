@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RYAN AI GPT 1.2</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;500;700&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <!-- Ionicons for icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+
+    <div class="background-orb orb-1"></div>
+    <div class="background-orb orb-2"></div>
+
+    <div class="app-container">
+        <!-- SIDEBAR -->
+        <nav class="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="Ryan AI" id="app-logo">
+            </div>
+
+            <ul class="nav-links">
+                <li class="active" data-target="home">
+                    <ion-icon name="home-outline"></ion-icon>
+                    <span class="tooltip">Home</span>
+                </li>
+                <li data-target="library">
+                    <ion-icon name="library-outline"></ion-icon>
+                    <span class="tooltip">Library</span>
+                </li>
+                <li data-target="chat">
+                    <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+                    <span class="tooltip">Ryan AI</span>
+                </li>
+            </ul>
+
+            <div class="settings">
+                <ion-icon name="settings-outline"></ion-icon>
+            </div>
+        </nav>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="content-area">
+
+            <!-- MODULE: HOME DASHBOARD -->
+            <section id="home" class="module active">
+                <header>
+                    <h1>RYAN AI // HOME</h1>
+                    <p>SYSTEM STATUS: OPTIMAL // NEURAL NET: ONLINE</p>
+                </header>
+                <div class="dashboard-grid">
+                    <div class="dash-card chat-card" onclick="switchTab('chat')">
+                        <ion-icon name="chatbubbles-outline"></ion-icon>
+                        <h3>Ryan Chat</h3>
+                        <p>Interact with the advanced Ryan AI LLM interface.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MODULE: LIBRARY -->
+            <section id="library" class="module">
+                <header>
+                    <h1>CHAT LIBRARY</h1>
+                    <p>YOUR CONVERSATION HISTORY</p>
+                </header>
+                <div class="library-container">
+                    <div class="library-header">
+                        <button id="new-chat-btn" class="primary-btn"
+                            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 0.75rem 1.5rem; font-size: 1rem;">
+                            <ion-icon name="add-circle-outline"
+                                style="vertical-align: middle; margin-right: 0.5rem;"></ion-icon>
+                            New Chat
+                        </button>
+                    </div>
+                    <div id="chat-list" class="chat-list">
+                        <!-- Chat items will be dynamically inserted here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- MODULE: CHAT -->
+            <section id="chat" class="module">
+                <header>
+                    <h1>RYAN AI GPT 1.2</h1>
+                    <select id="chat-provider" class="provider-select">
+                        <option value="edu">EDU AI (Universal)</option>
+                        <option value="gemini-flash">Gemini Flash 2.5 (API)</option>
+                        <option value="openai">ChatGPT 4o</option>
+                        <option value="gemini">Gemini Pro</option>
+                        <option value="claude">Claude 3.5 (API)</option>
+                    </select>
+                </header>
+                <div class="chat-interface">
+                    <div class="chat-history" id="chat-history">
+                        <div class="msg ai">
+                            <div class="avatar"><ion-icon name="planet"></ion-icon></div>
+                            <div class="bubble">Hello. I am Cortex. How can I assist you today?</div>
+                        </div>
+                    </div>
+                    <div class="chat-input-area">
+                        <div id="file-preview-container" class="file-preview-container"></div>
+                        <div class="input-wrapper">
+                            <input type="file" id="file-upload" style="display: none;" multiple>
+                            <button id="attach-btn" title="Attach Files"><ion-icon
+                                    name="attach-outline"></ion-icon></button>
+                            <input type="text" id="chat-input"
+                                placeholder="Type /image [prompt] or ask about your files...">
+                            <button id="send-chat-btn">SEND <ion-icon name="send"></ion-icon></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HIDDEN: VIDEO GEN (Logic remains for /video command, but UI is hidden) -->
+            <section id="video" class="module" style="display:none;">
+                <header>
+                    <h1>VIDEO GEN (Background)</h1>
+                </header>
+                <div class="workspace">
+                    <div class="preview-stage" id="video-stage">
+                        <div class="loading-bar" id="video-progress" hidden>
+                            <div class="bar-fill"></div>
+                            <span class="status-text">RENDERING FRAMES...</span>
+                        </div>
+                    </div>
+                    <textarea id="video-prompt"></textarea>
+                    <button id="generate-video-btn">GENERATE</button>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <header>
+                <h2>SYSTEM CONFIG</h2>
+                <button class="close-modal"><ion-icon name="close-outline"></ion-icon></button>
+            </header>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label>OPENAI API KEY</label>
+                    <input type="password" id="openai-key" placeholder="sk-...">
+                </div>
+                <div class="input-group">
+                    <label>GEMINI API KEY</label>
+                    <input type="password" id="gemini-key" placeholder="Enter Gemini Key...">
+                </div>
+                <div class="input-group">
+                    <label>ANTHROPIC API KEY (Claude)</label>
+                    <input type="password" id="anthropic-key" placeholder="sk-ant-...">
+                </div>
+                <p class="crypto-note">Intelligence keys are stored locally. Music generation is now keyless.</p>
+                <button id="save-settings" class="primary-btn">SAVE CONFIG</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
